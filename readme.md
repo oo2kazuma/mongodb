@@ -80,3 +80,17 @@ db.fishes.find(
         {"price": { $gte: 300}}
         ]},
         {_id:0})
+
+
+■7.4.7 レプリカセットの構築
+rs.initiate({ _id:0, host: "localhost:27017",})
+
+rs.initiate({ 
+  _id: "replSet01", 
+  members: [ 
+    { _id: 0, host: "mongo:27017", priority: 10 }, 
+    { _id: 1, host: "mongo-sec:27017", priority: 1 }, 
+    { _id: 2, host: "mongo-arb:27017", arbiterOnly: true } 
+  ]
+})
+
