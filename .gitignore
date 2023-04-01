@@ -1,2 +1,5 @@
 storage/*
+storage2/*
+storage-sec/*
+storage-arb/*
 !storage/.gitkeep

@@ -9,14 +9,44 @@ services:
     entrypoint: ["sh", "-c", "mongod --config /etc/mongod.conf & tail -f /dev/null"]
     volumes:
       - ./mongod.conf:/etc/mongod.conf
+      - ./keyFile:/etc/keyFile
       - ./storage:/var/lib/mongodb
-      
-  # mongo-express:
-  #   image: mongo-express
-  #   restart: always
-  #   ports:
-  #     - 8081:8081
-  #   environment:
-  #     ME_CONFIG_MONGODB_ADMINUSERNAME: root
-  #     ME_CONFIG_MONGODB_ADMINPASSWORD: example
-  #     ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+  mongo-sec:
+    build: .
+    restart: always
+    ports:
+      - 27018:27017
+    entrypoint: ["sh", "-c", "mongod --config /etc/mongod.conf & tail -f /dev/null"]
+    volumes:
+      - ./mongod-sec.conf:/etc/mongod.conf
+      - ./storage-sec:/var/lib/mongodb
+  mongo-arb:
+    build: .
+    restart: always
+    ports:
+      - 27019:27017
+    entrypoint: ["sh", "-c", "mongod --config /etc/mongod.conf & tail -f /dev/null"]
+    volumes:
+      - ./mongod-arb.conf:/etc/mongod.conf
+      - ./storage-arb:/var/lib/mongodb
+  mongo6:
+    image: mongo:6.0.4-jammy
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - 27027:27017
+    entrypoint: ["sh", "-c", "mongod --config /etc/mongod.conf & tail -f /dev/null"]
+    volumes:
+      - ./mongod6.conf:/etc/mongod.conf
+      - ./storage2:/var/lib/mongodb
+  #mongo-express:
+  #  image: mongo-express
+  #  restart: always
+  #  ports:
+  #    - 8081:8081
+  #  environment:
+  #    ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+  #    ME_CONFIG_MONGODB_ADMINPASSWORD: password
+  #    ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
