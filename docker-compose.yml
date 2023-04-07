@@ -40,6 +40,45 @@ services:
       - ./mongod-arb.conf:/etc/mongod.conf
       - ./keyFile:/tmp/keyFile
       - ./storage-arb:/var/lib/mongodb
+  mongo-rs02:
+    build: .
+    restart: always
+    ports:
+      - 27117:27017
+    entrypoint: ["sh", "-c", "cp -a /tmp/keyFile /etc/keyFile \
+                && chmod 400 /etc/keyFile \
+                && mongod --config /etc/mongod.conf \
+                && tail -f /dev/null"]
+    volumes:
+      - ./replSet02/mongod.conf:/etc/mongod.conf
+      - ./keyFile:/tmp/keyFile
+      - ./replSet02/storage:/var/lib/mongodb
+  mongo-sec-rs02:
+    build: .
+    restart: always
+    ports:
+      - 27118:27017
+    entrypoint: ["sh", "-c", "cp -a /tmp/keyFile /etc/keyFile \
+                && chmod 400 /etc/keyFile \
+                && mongod --config /etc/mongod.conf \
+                && tail -f /dev/null"]
+    volumes:
+      - ./replSet02/mongod-sec.conf:/etc/mongod.conf
+      - ./keyFile:/tmp/keyFile
+      - ./replSet02/storage-sec:/var/lib/mongodb
+  mongo-arb-rs02:
+    build: .
+    restart: always
+    ports:
+      - 27119:27017
+    entrypoint: ["sh", "-c", "cp -a /tmp/keyFile /etc/keyFile \
+                && chmod 400 /etc/keyFile \
+                && mongod --config /etc/mongod.conf \
+                && tail -f /dev/null"]
+    volumes:
+      - ./replSet02/mongod-arb.conf:/etc/mongod.conf
+      - ./keyFile:/tmp/keyFile
+      - ./replSet02/storage-arb:/var/lib/mongodb
   mongo6:
     image: mongo:6.0.4-jammy
     restart: always

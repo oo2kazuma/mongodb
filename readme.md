@@ -22,6 +22,8 @@ dockerfile変更時にビルドが走るようにオプション付き
 docker-compose up --build
 
 #コマンド
+use admin
+
 db.createUser(
     {
         user: "admin",
@@ -83,7 +85,6 @@ db.fishes.find(
 
 
 ■7.4.7 レプリカセットの構築
-rs.initiate({ _id:0, host: "localhost:27017",})
 
 rs.initiate({ 
   _id: "replSet01", 
@@ -94,3 +95,20 @@ rs.initiate({
   ]
 })
 
+■8
+use horse
+
+db. createCollection("racehorse")
+
+db. racehorse. insert([ { "name": "タイキシャトル", "race":{ "date": "1998-11-22", "raceName": "マイル チャンピオンシップ" } },{ "name": "タイキシャトル", "race":{ "date": "1998-06-04", "raceName": "安田 記念" } }, { "name": "タイキシャトル", "race":{ "date": "1997-12-14", "raceName": "スプリンターズステークス" } }, { "name": "トウカイテイオー", "race":{ "date": "1993-12-26", "raceName": "有馬記念" } }, { "name": "トウカイテイオー", "race":{ "date": "1992-11-29", "raceName": "ジャパン カップ" } }, { "name": "トウカイテイオー", "race":{ "date": "1991-05-26", "raceName": "東京 優駿" } } ])
+
+db.racehorse.createIndex({ name: 1})
+
+rs.initiate({ 
+  _id: "replSet02", 
+  members: [ 
+    { _id: 0, host: "mongo-rs02:27017", priority: 10 }, 
+    { _id: 1, host: "mongo-sec-rs02:27017", priority: 1 }, 
+    { _id: 2, host: "mongo-arb-rs02:27017", arbiterOnly: true } 
+  ]
+})

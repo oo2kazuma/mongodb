@@ -2,4 +2,8 @@ storage/*
 storage2/*
 storage-sec/*
 storage-arb/*
+replSet02/storage/*
+replSet02/storage2/*
+replSet02/storage-sec/*
+replSet02/storage-arb/*
 !storage/.gitkeep
