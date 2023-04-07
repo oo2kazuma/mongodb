@@ -79,6 +79,36 @@ services:
       - ./replSet02/mongod-arb.conf:/etc/mongod.conf
       - ./keyFile:/tmp/keyFile
       - ./replSet02/storage-arb:/var/lib/mongodb
+  mongo-config:
+    build: .
+    restart: always
+    ports:
+      - 27200:27017
+    entrypoint: ["sh", "-c", "mongod --config /etc/mongod.conf \
+                && tail -f /dev/null"]
+    volumes:
+      - ./mongod-config.conf:/etc/mongod.conf
+      - ./storage-config:/var/lib/mongodb
+  mongo-config2:
+    build: .
+    restart: always
+    ports:
+      - 27201:27017
+    entrypoint: ["sh", "-c", "mongod --config /etc/mongod.conf \
+                && tail -f /dev/null"]
+    volumes:
+      - ./mongod-config.conf:/etc/mongod.conf
+      - ./storage-config2:/var/lib/mongodb      
+  mongo-config3:
+    build: .
+    restart: always
+    ports:
+      - 27202:27017
+    entrypoint: ["sh", "-c", "mongod --config /etc/mongod.conf \
+                && tail -f /dev/null"]
+    volumes:
+      - ./mongod-config.conf:/etc/mongod.conf
+      - ./storage-config3:/var/lib/mongodb
   mongo6:
     image: mongo:6.0.4-jammy
     restart: always

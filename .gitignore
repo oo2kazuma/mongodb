@@ -2,6 +2,9 @@ storage/*
 storage2/*
 storage-sec/*
 storage-arb/*
+storage-config/*
+storage-config2/*
+storage-config3/*
 replSet02/storage/*
 replSet02/storage2/*
 replSet02/storage-sec/*
